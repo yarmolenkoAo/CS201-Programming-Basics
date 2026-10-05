@@ -9,7 +9,7 @@
 4. Зберегти результат у .txt файл
 5. Запушити все на GitHub
 """
-
+import csv
 
 # ============================================================
 # Крок 1. Створіть папку з проєктом
@@ -57,7 +57,26 @@ OUTPUT_FILE = "result.txt"
 
 # TODO 4: після циклу порахуйте середній бал по класу з кожного предмета
 #   (сума / кількість студентів)
+with open(INPUT_FILE) as f:
+    next(f)
+    math = 0
+    python = 0
+    english = 0
+    best_student = ""
+    best_student_mark = 0
+    list_len = 0
+    for line in f:
+        line.strip("\n")
+        line = line.split(",")
 
+        math += int(line[1])
+        python += int(line[2])
+        english += int(line[3])
+        list_len += 1
+
+        if (int(line[1])+int(line[2])+int(line[3])) / 3 > best_student_mark:
+            best_student = line[0]
+            best_student_mark = (int(line[1])+int(line[2])+int(line[3])) / 3
 
 # ============================================================
 # Крок 4. Збережіть результат у .txt файл
@@ -76,7 +95,18 @@ OUTPUT_FILE = "result.txt"
 #
 # Запустіть скрипт (python analyze.py) і перевірте, що в папці
 # з'явився файл result.txt.
+with open(OUTPUT_FILE, "w") as f:
+    f.write("Середній бал по класу:\n")
+    f.write(f"math: {round(math / list_len, 1)}\n")
+    f.write(f"python: {round(python / list_len, 1)}\n")
+    f.write(f"english: {round(english / list_len, 1)}\n\n")
+    f.write(f"Найкращий студент: {best_student} {round(best_student_mark, 1)}")
 
+print("Середній бал по класу:")
+print(f"math: {round(math / list_len, 1)}")
+print(f"python: {round(python / list_len, 1)}")
+print(f"english: {round(english / list_len, 1)}\n")
+print(f"Найкращий студент: {best_student} {round(best_student_mark, 1)}")
 
 # ============================================================
 # Крок 5. Запушіть усе на GitHub
